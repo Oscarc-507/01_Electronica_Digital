@@ -1,0 +1,13 @@
+# Gowin EDA generated build artifacts
+impl/
+*.gprj.user
+*.log
+*.fs
+*.bin
+*.binx
+*.vg
+*.db
+
+# OS / Editor files
+.DS_Store
+Thumbs.db

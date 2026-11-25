@@ -1,0 +1,17 @@
+<?xml version="1" encoding="UTF-8"?>
+<!DOCTYPE gowin-fpga-project>
+<Project>
+    <Template>FPGA</Template>
+    <Version>5</Version>
+    <Device name="GW2AR-18C" pn="GW2AR-LV18QN88C8/I7">gw2ar18c-000</Device>
+    <FileList>
+        <File path="src/control.sv" type="file.verilog" enable="1"/>
+        <File path="src/count.sv" type="file.verilog" enable="1"/>
+        <File path="src/decoder.sv" type="file.verilog" enable="1"/>
+        <File path="src/div_clk.sv" type="file.verilog" enable="1"/>
+        <File path="src/mux_decoder.sv" type="file.verilog" enable="1"/>
+        <File path="src/shift_register.sv" type="file.verilog" enable="1"/>
+        <File path="src/top.sv" type="file.verilog" enable="1"/>
+        <File path="src/P05_E2.cst" type="file.cst" enable="1"/>
+    </FileList>
+</Project>

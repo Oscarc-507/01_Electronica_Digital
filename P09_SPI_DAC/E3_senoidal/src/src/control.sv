@@ -1,0 +1,54 @@
+module control(
+    input logic clk,
+    input logic rst,
+    input logic done,   
+    output logic div_en,
+    output logic ramp_en,
+    output logic cs
+);
+
+typedef enum logic [2:0] { 
+    IDLE,
+    START,
+    SEND,   
+    WAIT
+} t_state;
+
+t_state state, next_state; 
+localparam logic [2:0] WAIT_LAST = 3'd5; // 6 ciclos de WAIT -> 135 ciclos/trama (200 kSPS exactos a 27 MHz)
+logic [2:0] cont_clk;
+
+// main
+always_ff @(posedge clk, posedge rst)begin
+    if(rst)
+        state <= IDLE;
+    else
+        state <= next_state;
+end
+
+//wait cycles
+always_ff @(posedge clk,posedge rst ) begin
+    if(rst)    
+        cont_clk <= '0;
+    else if(state == START)
+        cont_clk <= '0;
+    else if(state == WAIT)
+        cont_clk <= cont_clk + 1'b1;
+end
+
+always_comb begin
+    next_state = state;
+    case (state)
+        IDLE : next_state = START;
+        START: next_state = SEND;     
+        SEND : if(done) next_state = WAIT;
+        WAIT : if(cont_clk == WAIT_LAST) next_state = START;       
+        default: next_state = IDLE; 
+    endcase
+end
+
+assign cs = !(state == START || state == SEND);
+assign div_en = (state == SEND);
+assign ramp_en = (state == WAIT && cont_clk == WAIT_LAST);   
+
+endmodule
